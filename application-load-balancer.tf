@@ -4,6 +4,11 @@ resource "aws_lb" "UiPath_ALB" {
   internal        = false
   security_groups = [aws_security_group.uipath_stack.id]
   subnets         = data.aws_subnet_ids.public.ids
+
+    tags = {
+    Name = "Uipath-ALB"
+    Owner = var.owner_tag_name
+  }
 }
 
 resource "aws_lb_target_group" "UiPath_APPgroup" {
