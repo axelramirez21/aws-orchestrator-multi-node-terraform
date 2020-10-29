@@ -1,4 +1,4 @@
-# Terraform & AWS => ♥ UiPath Orchestrator.
+# Terraform & AWS => UiPath Orchestrator production environment
 Steps to provision Orchestrator on AWS in ASG (Auto scaling group):
 1. Install terraform  v0.13.5 (https://learn.hashicorp.com/terraform/getting-started/install.html).
 2. Create terraform.tfvars and then complete the file according to the variables.tf file (see inputs below). For Orchestrator hardware requirements and EC2 types check : https://aws.amazon.com/ec2/instance-types/  and https://orchestrator.uipath.com/docs/hardware-requirements-orchestrator.
@@ -27,7 +27,6 @@ terraform apply "uipathdestroy.plan"
 Terraform v0.13.5
 
 ## Inputs
-
 | Name | Description | Type | Default | Required |
 |---|--------------|:----:|:-----:|:-----:|
 | aws\_region | The region for UiPath Orchestrator deployment. | string | `"eu-west-2"` | yes |
@@ -66,7 +65,6 @@ Terraform v0.13.5
 | security\_cidr\_block | Security Group cidr block. Only 80 and 443 must have access to the internet if you want to access the Orchestrator via the Internet. | string | `"0.0.0.0/0"` | yes |
 
 ## Outputs
-
 | Name | Description |
 |------|-------------|
 | bastion\_public\_ip | Public IP of the Bastion Host (Jumbox host). |

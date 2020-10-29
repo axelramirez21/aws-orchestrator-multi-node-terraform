@@ -70,7 +70,7 @@ resource "aws_subnet" "public" {
   tags = {
     "Name" = "Public subnet - ${var.application}-${var.environment} - ${element(local.aws_region, count.index)}"
     "Tier" = "Public"
-    "owner" = var.owner_tag_name
+    "Owner" = var.owner_tag_name
   }
 }
 
