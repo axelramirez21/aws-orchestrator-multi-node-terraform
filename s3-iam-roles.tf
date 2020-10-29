@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "policy_document" {
     ]
 
     resources = [
-      "${aws_s3_bucket.s3bucket_orchestrator.arn}",
+      aws_s3_bucket.s3bucket_orchestrator.arn,
     ]
 
     effect = "Allow"
@@ -57,16 +57,16 @@ data "aws_iam_policy_document" "assume_role_policy_document" {
 
 resource "aws_iam_role" "s3_tf_filegw" {
   name               = "${var.application}-${var.environment}-${var.role}"
-  assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy_document.json}"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_document.json
   description        = "IAM role for file gateway"
 }
 
 resource "aws_iam_policy" "s3_tf_filegw" {
   name   = "${var.application}-${var.environment}-${var.role}-bucket-access"
-  policy = "${data.aws_iam_policy_document.policy_document.json}"
+  policy = data.aws_iam_policy_document.policy_document.json
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attachment" {
-  role       = "${aws_iam_role.s3_tf_filegw.id}"
-  policy_arn = "${aws_iam_policy.s3_tf_filegw.arn}"
+  role       = aws_iam_role.s3_tf_filegw.id
+  policy_arn = aws_iam_policy.s3_tf_filegw.arn
 }

@@ -3,7 +3,7 @@ resource "aws_autoscaling_policy" "orchestrator-scale-up" {
     scaling_adjustment = 1
     adjustment_type = "ChangeInCapacity"
     cooldown = 300
-    autoscaling_group_name = "${aws_autoscaling_group.uipath_app_autoscaling_group.name}"
+    autoscaling_group_name = aws_autoscaling_group.uipath_app_autoscaling_group.name
 }
 
 resource "aws_autoscaling_policy" "orchestrator-scale-down" {
@@ -11,7 +11,7 @@ resource "aws_autoscaling_policy" "orchestrator-scale-down" {
     scaling_adjustment = -1
     adjustment_type = "ChangeInCapacity"
     cooldown = 300
-    autoscaling_group_name = "${aws_autoscaling_group.uipath_app_autoscaling_group.name}"
+    autoscaling_group_name = aws_autoscaling_group.uipath_app_autoscaling_group.name
 }
 
 
@@ -26,10 +26,10 @@ resource "aws_cloudwatch_metric_alarm" "memory-high" {
     threshold = "80"
     alarm_description = "This metric monitors ec2 memory for high utilization on Orchestrator hosts"
     alarm_actions = [
-        "${aws_autoscaling_policy.orchestrator-scale-up.arn}"
+        aws_autoscaling_policy.orchestrator-scale-up.arn
     ]
     dimensions ={
-        AutoScalingGroupName = "${aws_autoscaling_group.uipath_app_autoscaling_group.name}"
+        AutoScalingGroupName = aws_autoscaling_group.uipath_app_autoscaling_group.name
     }
 }
 
@@ -44,10 +44,10 @@ resource "aws_cloudwatch_metric_alarm" "memory-low" {
     threshold = "40"
     alarm_description = "This metric monitors ec2 memory for low utilization on Orchestrator  hosts"
     alarm_actions = [
-        "${aws_autoscaling_policy.orchestrator-scale-down.arn}"
+        aws_autoscaling_policy.orchestrator-scale-down.arn
     ]
     dimensions ={
-        AutoScalingGroupName = "${aws_autoscaling_group.uipath_app_autoscaling_group.name}"
+        AutoScalingGroupName = aws_autoscaling_group.uipath_app_autoscaling_group.name
     }
 }
 
@@ -62,13 +62,14 @@ resource "aws_cloudwatch_metric_alarm" "cpu-high" {
     threshold = "60"
     alarm_description = "This metric monitors ec2 cpu for high utilization on Orchestrator hosts"
     alarm_actions = [
-        "${aws_autoscaling_policy.orchestrator-scale-up.arn}"
+        aws_autoscaling_policy.orchestrator-scale-up.arn
     ]
     dimensions ={
-        AutoScalingGroupName = "${aws_autoscaling_group.uipath_app_autoscaling_group.name}"
+        AutoScalingGroupName = aws_autoscaling_group.uipath_app_autoscaling_group.name
     }
 }
 
+### Cloud watch alarm to detect if one of the orchestrator instances is down
 resource "aws_cloudwatch_metric_alarm" "cpu-low" {
     alarm_name = "cpu-util-low-orchestrator"
     comparison_operator = "LessThanOrEqualToThreshold"
@@ -80,9 +81,9 @@ resource "aws_cloudwatch_metric_alarm" "cpu-low" {
     threshold = "10"
     alarm_description = "This metric monitors ec2 cpu for low utilization on Orchestrator  hosts"
     alarm_actions = [
-        "${aws_autoscaling_policy.orchestrator-scale-down.arn}"
+        aws_autoscaling_policy.orchestrator-scale-down.arn
     ]
     dimensions ={
-        AutoScalingGroupName = "${aws_autoscaling_group.uipath_app_autoscaling_group.name}"
+        AutoScalingGroupName = aws_autoscaling_group.uipath_app_autoscaling_group.name
     }
 }

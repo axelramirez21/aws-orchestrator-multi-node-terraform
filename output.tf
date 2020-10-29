@@ -4,7 +4,7 @@
 # }
 
 output "lb_dns_name" {
-  value = "${aws_lb.UiPath_ALB.dns_name}"
+  value = aws_lb.UiPath_ALB.dns_name
 }
 
 

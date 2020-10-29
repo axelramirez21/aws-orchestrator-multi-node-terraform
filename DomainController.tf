@@ -14,7 +14,7 @@ resource "aws_instance" "domain-controller" {
 
   tags = {
     Name = "${var.application}-${var.environment}-DomainController"
-    owner = var.owner_tag_name
+    Owner = var.owner_tag_name
   }
 }
 
