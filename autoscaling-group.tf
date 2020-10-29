@@ -41,7 +41,7 @@ resource "aws_autoscaling_group" "uipath_app_autoscaling_group" {
   }
 
   tag {
-    key                 = "owner"
+    key                 = "Owner"
     value               = var.owner_tag_name
     propagate_at_launch = true
   }
