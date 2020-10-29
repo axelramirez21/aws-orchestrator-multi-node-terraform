@@ -1,6 +1,6 @@
 ### INLINE - Bootstrap Windows Server 2016 ###
 data "template_file" "init" {
-  depends_on = [aws_instance.haa-master, aws_db_instance.default_mssql[0]] 
+  depends_on = ["aws_instance.haa-master", "aws_db_instance.default_mssql[0]"]
   template   = <<EOF
 <script>
   winrm quickconfig -q & winrm set winrm/config/winrs @{MaxMemoryPerShellMB="300"} & winrm set winrm/config @{MaxTimeoutms="1800000"} & winrm set winrm/config/service @{AllowUnencrypted="true"} & winrm set winrm/config/service/auth @{Basic="true"} & winrm/config @{MaxEnvelopeSizekb="8000kb"}
@@ -11,7 +11,6 @@ if("${var.admin_password}"){
   $admin = [ADSI]("WinNT://./administrator, user")
   $admin.SetPassword("${var.admin_password}")
 }
-
 $temp = "C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts"
 $link = "https://raw.githubusercontent.com/UiPath/Infrastructure/master/Setup/Install-UiPathOrchestrator.ps1"
 $file = "Install-UiPathOrchestrator.ps1"
@@ -19,7 +18,7 @@ New-Item $temp -ItemType directory
 Set-Location -Path $temp
 Set-ExecutionPolicy Unrestricted -force
 Invoke-WebRequest -Uri $link -OutFile $file
-powershell.exe -ExecutionPolicy Bypass -File "C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\Install-UiPathOrchestrator.ps1" -OrchestratorVersion var.orchestrator_versions -passphrase var.orchestrator_passphrase -databaseServerName  var.newSQL == "yes" ? aws_db_instance.default_mssql[0].address : var.sql_srv  -databaseName var.db_name  -databaseUserName var.db_username -databaseUserPassword var.db_password -orchestratorAdminPassword var.orchestrator_password -redisServerHost "${aws_instance.haa-master.private_ip}:10000,${join(":10000,",aws_instance.haa-slave.*.private_ip)}:10000,password=${var.haa-password}" -NuGetStoragePath "${join("\\", list(aws_instance.gateway.private_ip, var.s3BucketName))}" -orchestratorLicenseCode var.orchestrator_license
+powershell.exe -ExecutionPolicy Bypass -File "C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\Install-UiPathOrchestrator.ps1" -OrchestratorVersion "${var.orchestrator_versions}" -passphrase "${var.orchestrator_passphrase}" -databaseServerName  "${var.newSQL == "yes" ? "${aws_db_instance.default_mssql[0].address}" : "${var.sql_srv}"}"  -databaseName "${var.db_name}"  -databaseUserName "${var.db_username}" -databaseUserPassword "${var.db_password}" -orchestratorAdminPassword "${var.orchestrator_password}" -redisServerHost "${aws_instance.haa-master.private_ip}:10000,${join(":10000,",aws_instance.haa-slave.*.private_ip)}:10000,password=${var.haa-password}" -NuGetStoragePath "${join("\\", list(aws_instance.gateway.private_ip, var.s3BucketName))}" -orchestratorLicenseCode "${var.orchestrator_license}"
 </powershell>
 EOF
 }
@@ -108,23 +107,23 @@ data "aws_ami" "haa" {
 # Data sources to get VPC, subnets and security group details
 ##############################################################
 data "aws_vpc" "uipath" {
-  depends_on = [aws_vpc.uipath]
+  depends_on = ["aws_vpc.uipath"]
   #default = true
   #state = "available"
-  id = aws_vpc.uipath.id
+  id = "${aws_vpc.uipath.id}"
 }
 
 data "aws_subnet_ids" "public" {
-  depends_on = [aws_vpc.uipath, aws_subnet.public]
-  vpc_id = aws_vpc.uipath.id
+  depends_on = ["aws_vpc.uipath", "aws_subnet.public"]
+  vpc_id = "${aws_vpc.uipath.id}"
   tags = {
     Tier = "Public"
   }
 }
 
 data "aws_subnet_ids" "private" {
-  depends_on = [aws_vpc.uipath, aws_subnet.private]
-  vpc_id = aws_vpc.uipath.id
+  depends_on = ["aws_vpc.uipath", "aws_subnet.private"]
+  vpc_id = "${aws_vpc.uipath.id}"
   tags = {
     Tier = "Private"
   }
