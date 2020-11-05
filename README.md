@@ -8,7 +8,7 @@ Steps to provision Orchestrator on AWS in ASG (Auto scaling group):
 6. Check the plan of the resources to be deployed and type ` yes ` if you agree with the plan.
 7. Wait 15-20 mins and enjoy! The password of the Orchestrator is the password used to ` orchestrator_password ` variable.
 
-## Optional way to run the scripts using a plan file
+## Optional way to run the scripts using a plan file examples
 #Terraform Plan with output file
 terraform plan -out=C:\Users\axel.ramirez\Desktop\Uipath\AWS\TerraformCode\Infrastructure-master\AWS\Terraform\Orchestrator\multi-node\uipath.plan
 

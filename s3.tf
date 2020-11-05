@@ -3,11 +3,11 @@
 resource "aws_instance" "gateway" {
   #ami           = "${data.aws_ami.gateway_ami.image_id}"
   
-  #NEW IMAGE THAT WORKS WITH AWS 10/06/2020
+  #Changed to New AWS 10/06/2020, base code version was using an image that does not exist anymore
+  #Refer to AWS File Gateway documentation for minimum system requirements.
   ami            = "ami-0056d3b3567a0b634"
   instance_type = "m4.xlarge"
   associate_public_ip_address = true
-  # Refer to AWS File Gateway documentation for minimum system requirements.
   ebs_optimized = true
   subnet_id     = aws_subnet.public[0].id
 
