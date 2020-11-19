@@ -15,7 +15,7 @@ orchestrator_versions="19.10.15"
 ##### HAA instances #####
 haa-user="youremail@uipath.com"
 haa-password="YOURPASSWORD"
-haa-license="2353tgewsdfweg34t342rftg23g2g23t2r32r2353tgewsdfweg34t342rftg23g2g23t2r32r2353tgewsdfweg34t342rftg23g2g23t2r32r2353tgewsdfweg34t342rftg23g2g23t2r32r"
+haa-license="353tgewsdfweg34t342rftg23g2g23t2r32r2353tgewsdfweg34t34"
 
 ##### AWS RDS SQL instances #####
 newSQL="yes"
